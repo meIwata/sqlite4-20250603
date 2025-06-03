@@ -50,6 +50,22 @@ app.get('/api', (req, res) => {
   });
 });
 
+// 用 POST 新增資料
+app.post('/api/insert', (req, res) => {
+    let provider = req.body.provider;
+    let movie_name = req.body.movie_name;
+    let quote = req.body.quote;
+    let sql = 'INSERT INTO movie_quotes (provider, movie_name, quote) VALUES (?, ?, ?)';
+    db.run(sql, [provider, movie_name, quote], (err) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.send('Insert success');
+    });
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
